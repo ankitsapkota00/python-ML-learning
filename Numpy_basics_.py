@@ -129,4 +129,157 @@ mask = b != 4
 print(b[mask])
 
 
+'''---------------------NumPy Calculation Methods-------------------------------'''
+
+grades = np.array([[87, 96, 70], [100, 87, 90],
+                  [94, 77, 90], [100, 81, 82]])
+
+print(grades)
+
+print(grades.sum())
+print(grades.min())
+print(grades.max())
+print(grades.mean())
+print(grades.std())
+print(grades.var())
+
+#Calculations by row(axis 1) or columns(axis 0)
+
+print("Average of each column is: \n",grades.mean(axis = 0))
+print("Average of each row is: \n\n", grades.mean(axis = 1))
+
+
+'''------------------- Universal functions --------------------'''
+nums = np.array([1, 4, 9, 16, 25, 36])
+print(np.sqrt(nums))
+
+nums2 = np.arange(1,7) * 10
+print(np.add(nums, nums2))
+
+'''-----------------------------Indexing and Slicing-------------------------'''
+#arr[index]   indexing
+#arr[start:stop:step]   slicing, stop is exclusive
+
+trip = np.arange(23,56)
+print(trip)
+
+print("\n\nfirst element", trip[0])
+print("\nthirteenth element",trip[13])
+
+print("\nfirst 10 elements", trip[0:10])
+print("\nLast 10 elements:", trip[-1:-11:-1],"\n\n")
+
+#-----------------indexing & slicing 2dimensional arrays-------------------
+grade = np.array([[87, 96, 70], [100, 87, 90],
+                 [94, 77, 90], [100, 81, 82]])
+
+print(grade)
+
+print(grade[0,1],"\n\n")   #indexing-- giving a row index and column index for a specific element
+
+#---------selecting subset of two dimensional array rows----------
+
+#To select a single row, specify only one index in square brackets
+print(grade[0],"\n\n")
+
+#To select multiple sequential rows, slice notation is used
+print(grade[0:2],"\n\n")
+print(grade[2:4],"\n\n")
+
+#To select multiple non sequential rows, use a list of row indices
+print(grade[[1,3]],"\n\n")
+
+#-------------Selecting a Subset of Two Dimensional array's Columns----------------
+#                 arr[:,:] main syntax so you can get anything in 2D array
+#you can select subsers of columns by providing a tuple specifying the row(s)
+#and columns to select.
+
+print(grade[:,0],"\n\n")
+print(grade[:, 1:3],"\n\n")
+
+#or specific column using list of column indices
+print(grade[:,[0,2]])
+
+'''-------------------Views:Shallow Copies AND Deep Copies---------------------'''
+numbers3 = np.array([1,2,3,4,5,6])
+
+numbers4 = numbers3.view()
+print(f'\n\n{numbers4}\n')
+
+numbers3[2] = 94
+print(numbers4)  #number4 index value 2 also changes even though we only changed index value of number3
+
+#Slicing also creates views
+
+numbers4 = numbers3[0:3]
+
+print(f'\n{numbers4}\n')
+
+numbers3[0] = 22
+
+print(f'\n{numbers4}\n')
+
+#Deep Copies, change in one doesnt affect other
+
+grade1 = np.arange(1,6)
+
+grade2 = grade1.copy()
+
+print(grade1)
+print(grade2,'\n')
+
+grade1[0] = 80
+
+print(grade1)
+print(grade2)
+
+
+#---------------Reshaping and Transposing-------------
+#method reshape returns a view with new dimension
+#method resize does not returns None; just changes the original
+
+milage = np.array([[47, 56, 30],[60, 47, 50]])
+print(f'\n{milage}\n')
+
+gin = milage.reshape(1,6)
+print(gin,'\n\n',milage,'\n') #gin's dimension changed but milage's didn't
+
+milage.resize(1,6)
+print('\n',milage)
+
+#-----flatten vs ravel-------(multidimensional to single dimension)
+#flatten --> deep copies 
+goals = np.array([[87, 96, 70], [100, 87, 90]])
+print(f'\n Goals:\n {goals}\n')
+
+flattend = goals.flatten()
+print(f'\nFlattened:\n{flattend}\n')
+
+print(f'Goals once agian:\n{grades}\n')
+
+flattend[0] = 300
+print(f'Flattend after element change:\n{flattend}\n')
+print(f'\nGoals after change in flattend:\n {goals}\n')
+
+#ravel ---> view of original array/ 
+#goals will remain 2 dim ravel will remain 1 dim but change in element in any one will change the other
+raveled = goals.ravel()
+print(f'Raveled:\n{raveled}\n')
+print(f'Goals:\n{goals}\n')
+
+raveled[0] = 555
+print(f'Raveled after element change:\n{raveled}\n')
+print(f'Goals after change in raveled:\n{goals}\n')
+
+
+#------------------ Transposing Rows and Columns---------------
+#Transpose ------> view of original & doesnot modify original
+print(f'Transposed \n{goals.T}\n')
+
+#Horizontal and Vertical Stacking
+goals2 = np.array([[94, 77, 90], [100, 81, 82]])
+
+print(f'Horizontally stacked:\n{np.hstack((goals,goals2))}\n')
+print(f'\nVerticlally stacked:\n{np.vstack((goals,goals2))}')
+
 
